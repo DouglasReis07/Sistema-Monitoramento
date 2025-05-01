@@ -1,0 +1,26 @@
+[
+    {
+      "id": 1,
+      "email": "douglas.reis@loovi.com.br",
+      "password": "Loovi@1234",
+      "name": "Douglas Reis"
+    },
+    {
+      "id": 3,
+      "email": "gerson.moreira@loovi.com.br",
+      "password": "Loovi@1234",
+      "name": "Gerson Moreira"
+    },
+    {
+        "id": 4,
+        "email": "kelleane.gomes@loovi.com.br",
+        "password": "Loovi@1234",
+        "name": "Kelleanne Gomes"
+      },
+      {
+        "id": 5,
+        "email": "gustavo.meira@loovi.com.br",
+        "password": "Loovi@1234",
+        "name": "Gustavo Meira"
+      }
+  ]
