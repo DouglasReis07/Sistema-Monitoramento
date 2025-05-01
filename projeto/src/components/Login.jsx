@@ -62,19 +62,16 @@ const Login = () => {
     );
 
     if (user) {
-      // Salva os dados COMPLETOS do usuário (incluindo email para recuperação)
       localStorage.setItem('user', JSON.stringify({
         name: user.name,
         email: user.email
       }));
-      
-      // Salva APENAS o email como referência primária
       localStorage.setItem('loggedUserEmail', user.email);
-      
+
       navigate('/dashboard', {
         state: {
-          userName: user.name,  // Nome exato do JSON
-          userEmail: user.email // Email exato do JSON
+          userName: user.name,
+          userEmail: user.email
         }
       });
     } else {
@@ -84,53 +81,63 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <div className="login-box">
-        <h1 className="login-title">Faça o login para acessar o GARY!</h1>
-        
-        {errors.auth && <div className="auth-error">{errors.auth}</div>}
-        
-        <form className="login-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email" className="form-label">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="exemplo@email.com"
-              className={`form-input ${errors.email ? 'input-error' : ''}`}
-            />
-            {errors.email && <span className="error-message">{errors.email}</span>}
-          </div>
+      {/* Lado esquerdo azul */}
+      <div className="login-left">
+        <div className="login-left-content">
+          <h2>Bem vindo ao GARY!</h2>
+        </div>
+      </div>
 
-          <div className="form-group">
-            <label htmlFor="password" className="form-label">Senha</label>
-            <div className="password-input-container">
+      {/* Lado direito branco */}
+      <div className="login-right">
+        <div className="login-box">
+          <h1 className="login-title">Login GARY</h1>
+
+          {errors.auth && <div className="auth-error">{errors.auth}</div>}
+
+          <form className="login-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="email" className="form-label">Email</label>
               <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                value={formData.password}
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
-                placeholder="Digite sua senha"
-                className={`form-input ${errors.password ? 'input-error' : ''}`}
+                placeholder="exemplo@email.com"
+                className={`form-input ${errors.email ? 'input-error' : ''}`}
               />
-              <button
-                type="button"
-                className="password-toggle"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? '👁️' : '🔒'}
-              </button>
+              {errors.email && <span className="error-message">{errors.email}</span>}
             </div>
-            {errors.password && <span className="error-message">{errors.password}</span>}
-          </div>
 
-          <button type="submit" className="submit-button">
-            Entrar
-          </button>
-        </form>
+            <div className="form-group">
+              <label htmlFor="password" className="form-label">Senha</label>
+              <div className="password-input-container">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Digite sua senha"
+                  className={`form-input ${errors.password ? 'input-error' : ''}`}
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? '👁️' : '🔒'}
+                </button>
+              </div>
+              {errors.password && <span className="error-message">{errors.password}</span>}
+            </div>
+
+            <button type="submit" className="submit-button">
+              Entrar
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

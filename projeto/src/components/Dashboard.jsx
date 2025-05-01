@@ -51,7 +51,7 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <header className="dashboard-header">
         <div className="header-content">
-          <h1 className="logo">GARRY</h1>
+          <h1 className="logo">GARY</h1>
           
           <div 
             className="user-area" 
