@@ -183,3 +183,13 @@
     margin: 0 auto;
   }
 }
+
+/* Estilo para a imagem abaixo do título */
+.login-image {
+  width: 400px;
+  height: auto;
+  margin-top: 70px;
+  border-radius: 10px;
+  object-fit: contain;
+}
+

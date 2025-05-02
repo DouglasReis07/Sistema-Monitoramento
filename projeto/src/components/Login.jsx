@@ -85,6 +85,12 @@ const Login = () => {
       <div className="login-left">
         <div className="login-left-content">
           <h2>Bem vindo ao GARY!</h2>
+          {/* Imagem abaixo do título */}
+          <img
+            src="/Jovem-monitoramento.png"
+            alt="Ilustração Jovem Monitoramento"
+            className="login-image"
+          />
         </div>
       </div>
 
