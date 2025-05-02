@@ -1,188 +1,143 @@
 .dashboard-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  .dashboard-header {
-    background-color: #1976d2;
-    color: white;
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin: 0;
-  }
-  
-  .user-area {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  .user-name-photo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .user-photo {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid white;
-  }
-  
-  .username {
-    font-weight: 500;
-    font-size: 1rem;
-  }
-  
-  .user-menu {
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    width: 250px;
-    z-index: 100;
-    overflow: hidden;
-  }
-  
-  .user-info {
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-    gap: 12px;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .menu-user-photo {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .menu-username {
-    font-weight: 600;
-    margin: 0;
-    color: #333;
-  }
-  
-  .menu-useremail {
-    font-size: 0.8rem;
-    margin: 4px 0 0;
-    color: #666;
-  }
-  
-  .menu-item {
-    width: 100%;
-    padding: 0.8rem;
-    background: none;
-    border: none;
-    text-align: left;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background 0.2s;
-    border-bottom: 1px solid #f0f0f0;
-  }
-  
-  .settings-button {
-    color: #1976d2;
-    
-  }
-  
-  .settings-button:hover {
-    background: #f5f5f5;
-  }
-  
-  .logout-button {
-    color: #d32f2f;
-  }
-  
-  .logout-button:hover {
-    background: #f5f5f5;
-  }
-  
-  .dashboard-content {
-    flex: 1;
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 2rem;
-  }
-  
-  @media (max-width: 768px) {
-    .header-content {
-      padding: 0 1rem;
-    }
-    
-    .logo {
-      font-size: 1.5rem;
-    }
-    
-    .username {
-      display: none;
-    }
-    
-    .user-menu {
-      width: 200px;
-    }
-  }
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
 
-.settings-section {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-top: 1rem;
-  }
-  
-  .settings-section h3 {
-    color: #1976d2;
-    margin-bottom: 1rem;
-  }
-  
-  .settings-button {
-    background: #1976d2;
-    color: white;
-    border: none;
-    padding: 0.7rem 1.2rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background 0.3s;
-  }
-  
-  .settings-button:hover {
-    background: #1565c0;
-  }
+.dashboard-header {
+  background-color: #1976d2;
+  color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
-  /* Centralizar o botão na tela */
-.pipeline-container {
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.user-name-photo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.username {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.user-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 250px;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  gap: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.menu-user-photo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.menu-username {
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.menu-useremail {
+  font-size: 0.8rem;
+  margin: 4px 0 0;
+  color: #666;
+}
+
+.menu-item {
+  width: 100%;
+  padding: 0.8rem;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.settings-button {
+  color: #1976d2;
+}
+
+.settings-button:hover {
+  background: #f5f5f5;
+}
+
+.logout-button {
+  color: #d32f2f;
+}
+
+.logout-button:hover {
+  background: #f5f5f5;
+}
+
+.dashboard-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.pipeline-section {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 80px); /* Ajusta para considerar o header */
+  min-height: 150px;
+  margin-bottom: 1rem;
 }
 
-/* Estilo do botão */
 .pipeline-button {
   background-color: #ffffff;
   color: #2575fc;
@@ -200,14 +155,165 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.pipeline-button:hover {
+.pipeline-button:hover:not(:disabled) {
   background-color: #2575fc;
   color: #ffffff;
   transform: translateY(-5px);
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
 }
 
-.pipeline-button:active {
-  transform: translateY(0);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+.pipeline-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.pipeline-button.loading {
+  background-color: #2575fc;
+  color: white;
+  padding: 15px 25px;
+}
+
+.loading-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loading-content span {
+  font-size: 1rem;
+  color: white;
+}
+
+.loader {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 3px solid white;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.results-section {
+  margin-top: 1rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.results-title {
+  color: #1976d2;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+/* Estilo para o botão de atualizar */
+/* Estilo atualizado para o botão de atualizar */
+.refresh-button {
+  background-color: #1976d2; /* Azul */
+  color: white;
+  font-size: 1rem; /* Tamanho menor */
+  font-weight: bold;
+  padding: 10px 20px; /* Diminuir o padding */
+  border: none;
+  border-radius: 5px; /* Bordas menos arredondadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra menor */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.refresh-button:hover {
+  background-color: #1565c0; /* Azul mais escuro no hover */
+  transform: translateY(-3px); /* Elevação menor */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.refresh-button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.processed-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.processed-table th {
+  background-color: #1976d2;
+  color: white;
+  padding: 12px 8px;
+  text-align: left;
+  position: sticky;
+  top: 0;
+}
+
+.processed-table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.processed-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.processed-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    padding: 0 1rem;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+  }
+  
+  .username {
+    display: none;
+  }
+  
+  .user-menu {
+    width: 200px;
+  }
+
+  .dashboard-main-content {
+    padding: 1rem;
+  }
+
+  .pipeline-button {
+    font-size: 1.2rem;
+    padding: 12px 24px;
+  }
+
+  .loading-content span {
+    font-size: 0.9rem;
+  }
+
+  .processed-table {
+    font-size: 0.85rem;
+  }
 }
