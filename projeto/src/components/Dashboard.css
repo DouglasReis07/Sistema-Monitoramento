@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
   }
   
   .dashboard-header {
@@ -105,6 +106,7 @@
   
   .settings-button {
     color: #1976d2;
+    
   }
   
   .settings-button:hover {
@@ -171,3 +173,41 @@
   .settings-button:hover {
     background: #1565c0;
   }
+
+  /* Centralizar o botão na tela */
+.pipeline-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 80px); /* Ajusta para considerar o header */
+}
+
+/* Estilo do botão */
+.pipeline-button {
+  background-color: #ffffff;
+  color: #2575fc;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.pipeline-button:hover {
+  background-color: #2575fc;
+  color: #ffffff;
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+}
+
+.pipeline-button:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}

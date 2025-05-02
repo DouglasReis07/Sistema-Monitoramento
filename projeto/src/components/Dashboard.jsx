@@ -30,21 +30,19 @@ const Dashboard = () => {
   const userPhoto = 'https://media.licdn.com/dms/image/v2/D4D0BAQHpJGnF5-GZZA/company-logo_200_200/company-logo_200_200/0/1667321694116/loovibrasil_logo?e=2147483647&v=beta&t=avAmwjkQlBYBy8GvwWQb2wVaT-4i8rLgn26_bpmOLa0';
 
   const handleLogout = () => {
-    // 1. Limpa os dados do usuário
     localStorage.removeItem('user');
-    
-    // 2. Redireciona para a tela de login
-    navigate('/login', { 
-      replace: true // Impede voltar com o botão "voltar"
-    });
-    
-    // 3. (Opcional) Força recarregamento para limpar estados
+    navigate('/login', { replace: true });
     window.location.reload();
   };
 
   const handleSettings = () => {
     navigate('/settings');
     setShowUserMenu(false);
+  };
+
+  const handleRunPipeline = () => {
+    alert('Pipeline iniciado!');
+    // Aqui você pode adicionar a lógica para rodar o pipeline
   };
 
   return (
@@ -99,6 +97,12 @@ const Dashboard = () => {
         </div>
       </header>
 
+      {/* Botão centralizado para rodar o pipeline */}
+      <div className="pipeline-container">
+        <button className="pipeline-button" onClick={handleRunPipeline}>
+          🚀 Rodar Pipeline
+        </button>
+      </div>
     </div>
   );
 };
