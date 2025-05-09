@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+Passo 1: Instalar o Node.js e npm
+    Baixar e Instalar o Node.js:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+    Acesse o site oficial do Node.js: Node.js Official Website
 
-## Available Scripts
+    Baixe a versão recomendada para a maioria dos usuários (LTS).
 
-In the project directory, you can run:
+    Siga as instruções do instalador para o seu sistema operacional.
 
-### `npm start`
+    Verificar Instalação:
+    Após a instalação, abra o PowerShell ou terminal e execute os comandos abaixo para verificar se o Node.js e o npm foram instalados corretamente:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    node -v
+    npm -v
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+Passo 2: Clonar o Repositório
+    Clone o repositório do seu projeto React do GitHub para o seu computador:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    Clone o Repositório:
+    No PowerShell ou terminal, execute o comando:
 
-### `npm run build`
+    git clone https://github.com/DouglasReis07/Tela-login.git
+    cd Tela-login
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Passo 3: Instalar as Dependências do Projeto
+    Agora, instale todas as dependências do projeto React que estão listadas no arquivo package.json:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    Instalar Dependências:
 
-### `npm run eject`
+    Execute o comando:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    npm install
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Passo 4: Desbloquear Execução de Scripts no PowerShell
+    Para permitir que o PowerShell execute scripts, você precisará alterar a política de execução.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    Abrir PowerShell como Administrador:
 
-## Learn More
+    Clique com o botão direito no ícone do PowerShell e selecione Executar como Administrador.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    Desbloquear Execução de Scripts:
+    Execute o seguinte comando para permitir a execução de scripts:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
-### Code Splitting
+    Este comando permite a execução de scripts locais não assinados, mas exige que os scripts baixados da internet sejam assinados.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    Quando solicitado, digite "S" para confirmar.
 
-### Analyzing the Bundle Size
+Passo 5: Rodar o Projeto
+    Agora que todas as dependências estão instaladas e a política de execução de scripts foi ajustada, você pode rodar o seu projeto React:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+    Iniciar o Servidor de Desenvolvimento:
 
-### Making a Progressive Web App
+    Execute o seguinte comando:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+    npm start
 
-### Advanced Configuration
+    O servidor de desenvolvimento será iniciado, e você pode acessar o projeto no navegador no seu endereço.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+RESUMO COMPLETO:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+# Passo 1: Instalar Node.js e npm
+# Baixe e instale o Node.js do site oficial: https://nodejs.org/
+# Verifique as versões do Node.js e npm
+node -v
+npm -v
 
-### `npm run build` fails to minify
+# Passo 2: Clonar o Repositório
+git clone https://github.com/DouglasReis07/Tela-login.git
+cd Tela-login
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Passo 3: Instalar Dependências
+npm install
+
+# Passo 4: Desbloquear Execução de Scripts no PowerShell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# Passo 5: Rodar o Projeto
+npm start
+
