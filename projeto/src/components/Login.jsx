@@ -79,12 +79,16 @@ const Login = () => {
     }
   };
 
+  const handleBuscarCliente = () => {
+    navigate('/busca');
+  };
+
   return (
     <div className="login-container">
       {/* Lado esquerdo azul */}
       <div className="login-left">
         <div className="login-left-content">
-          <h2>Bem vindo ao GARY!</h2>
+          <h2>Bem vindo ao JÚPITER!</h2>
           {/* Imagem abaixo do título */}
           <img
             src="/Jovem-monitoramento.png"
@@ -97,7 +101,7 @@ const Login = () => {
       {/* Lado direito branco */}
       <div className="login-right">
         <div className="login-box">
-          <h1 className="login-title">Login GARY</h1>
+          <h1 className="login-title">Login JÚPITER</h1>
 
           {errors.auth && <div className="auth-error">{errors.auth}</div>}
 
@@ -143,6 +147,14 @@ const Login = () => {
               Entrar
             </button>
           </form>
+
+          {/* Botão Buscar Cliente adicionado aqui */}
+          <button 
+            onClick={handleBuscarCliente}
+            className="buscar-cliente-button"
+          >
+            Buscar Cliente
+          </button>
         </div>
       </div>
     </div>

@@ -193,3 +193,33 @@
   object-fit: contain;
 }
 
+/* Estilos para o botão Buscar Cliente */
+.buscar-cliente-button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.buscar-cliente-button:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Adicione isso no media query para mobile */
+@media (max-width: 768px) {
+  .buscar-cliente-button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
+
