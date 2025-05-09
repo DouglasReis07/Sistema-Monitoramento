@@ -6,7 +6,7 @@
 }
 
 .dashboard-header {
-  background-color: #1976d2;
+  background-color: #5a78ff;
   color: white;
   padding: 1rem 2rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -101,11 +101,15 @@
   cursor: pointer;
   font-weight: 500;
   transition: background 0.2s;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0; /* Linha divisória sutil */
+}
+.menu-item:last-child { /* Remove a borda do último item */
+  border-bottom: none;
 }
 
+
 .settings-button {
-  color: #1976d2;
+  color: #5a78ff;
 }
 
 .settings-button:hover {
@@ -140,7 +144,7 @@
 
 .pipeline-button {
   background-color: #ffffff;
-  color: #2575fc;
+  color: #5a78ff;
   font-size: 1.5rem;
   font-weight: bold;
   padding: 15px 30px;
@@ -156,7 +160,7 @@
 }
 
 .pipeline-button:hover:not(:disabled) {
-  background-color: #2575fc;
+  background-color:#5a78ff;
   color: #ffffff;
   transform: translateY(-5px);
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
@@ -168,15 +172,19 @@
 }
 
 .pipeline-button.loading {
-  background-color: #2575fc;
+  background-color: #5a78ff;
   color: white;
-  padding: 15px 25px;
+  padding: 15px 25px; /* Padding ajustado para o estado de loading */
+  width: auto; /* Permite que o botão se ajuste ao conteúdo */
+  min-width: 300px; /* Largura mínima para acomodar o texto e loader */
 }
 
 .loading-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 15px;
+  width: 100%; /* Ocupa toda a largura do botão */
 }
 
 .loading-content span {
@@ -193,95 +201,394 @@
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.progress-animation-container {
+  width: 100%;
+  max-width: 500px; /* Limita a largura máxima da animação */
+  position: relative;
+  margin-top: 20px;
 }
 
-.results-section {
-  margin-top: 1rem;
-  animation: fadeIn 0.5s ease-out;
+.car-position {
+  position: absolute;
+  bottom: 100%; /* Posiciona o ícone acima da barra de progresso */
+  left: 0;
+  transform: translateX(-50%); /* Centraliza o ícone em relação à porcentagem */
+  z-index: 2;
+  transition: left 0.5s ease; /* Suaviza o movimento do ícone */
 }
 
-.results-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+.car-icon {
+  font-size: 28px;
+  animation: bounce 0.8s infinite alternate, move 2s infinite alternate;
+  display: inline-block;
+  transition: transform 0.3s ease;
 }
 
-.results-title {
-  color: #1976d2;
-  font-size: 1.5rem;
-  margin: 0;
+.car-icon.right {
+  transform: scaleX(1); /* Direção normal */
 }
 
-/* Estilo para o botão de atualizar */
-/* Estilo atualizado para o botão de atualizar */
-.refresh-button {
-  background-color: #1976d2; /* Azul */
+.car-icon.left {
+  transform: scaleX(-1); /* Inverte horizontalmente */
+}
+
+.progress-info {
+  width: 100%;
+}
+
+.current-process {
+  text-align: center;
   color: white;
-  font-size: 1rem; /* Tamanho menor */
-  font-weight: bold;
-  padding: 10px 20px; /* Diminuir o padding */
-  border: none;
-  border-radius: 5px; /* Bordas menos arredondadas */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra menor */
-  cursor: pointer;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  min-height: 20px; /* Garante altura mínima para evitar saltos */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+}
+
+.process-ellipsis span {
+  display: inline-block;
+  animation: blink 1.4s infinite;
+}
+
+.process-ellipsis span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.process-ellipsis span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.progress-track {
+  width: 100%;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #5a78ff, #48fdd8);
+  border-radius: 5px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px rgba(90, 120, 255, 0.5);
+}
+
+.geofence-cards-container {
+  display: flex;
+  gap: 20px;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.geofence-card {
+  flex: 1;
+  min-width: 250px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: white;
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.geofence-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.geofence-card h3 {
+  margin: 0 0 10px 0;
+  color: #555;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.geofence-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.geofence-subtext {
+  font-size: 1.1rem; /* Aumentado para melhor legibilidade */
+  color: #383737;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.geofence-card.total {
+  border-top: 5px solid #002fff;
+  background-color: rgba(90, 120, 255, 0.05);
+}
+
+.geofence-card.total .geofence-value {
+  color: #002efd;
+}
+
+.geofence-card.outside {
+  border-top: 5px solid #ff0000;
+  background-color: rgba(255, 107, 107, 0.05);
+}
+
+.geofence-card.outside .geofence-value {
+  color: #ff0000;
+}
+
+.geofence-card.inside {
+  border-top: 5px solid #37e254;
+  background-color: rgba(81, 207, 102, 0.05);
+}
+
+.geofence-card.inside .geofence-value {
+  color: #3bd455;
+}
+
+.timer-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 20px;
+  margin: 2rem 0;
+  background-color: #f5f7ff;
+  padding: 15px; /* Reduzido para um visual mais compacto */
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(90, 120, 255, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(90, 120, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(90, 120, 255, 0); }
+}
+
+.timer-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timer-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #5a78ff;
+  font-family: 'Courier New', monospace;
+  background-color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-width: 150px; /* Garante que o timer tenha uma largura mínima */
+  text-align: center;
+}
+
+.hourglass-icon {
+  font-size: 2.5rem; /* Tamanho do ícone */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  animation: bounce 1s infinite alternate; /* Adiciona animação de pulo */
+}
+
+.hourglass {
+  transition: transform 0.5s ease;
+}
+
+.hourglass.flip {
+  transform: rotate(180deg);
+}
+
+.results-title {
+  margin: 0 0 8px 0; /* Adicionado espaçamento inferior */
+  color: #5a78ff;
+  font-size: 1.2rem;
+}
+
+.restart-verification-button {
+  background-color: #5a78ff;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
   font-family: 'Poppins', sans-serif;
 }
 
-.refresh-button:hover {
-  background-color: #1565c0; /* Azul mais escuro no hover */
-  transform: translateY(-3px); /* Elevação menor */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+.restart-verification-button:hover {
+  background-color: #3a58df; /* Tom mais escuro no hover */
+  transform: translateY(-3px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
 }
 
-.refresh-button:active {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+/* Estilos para o modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.table-container {
-  width: 100%;
-  overflow-x: auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  margin-bottom: 2rem;
+.devices-modal {
+  background-color: white;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 800px; /* Aumentado para acomodar mais colunas */
+  max-height: 80vh;
+  overflow: hidden; /* Evita que o conteúdo interno transborde o raio da borda */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
 }
 
-.processed-table {
+.modal-header {
+  padding: 20px;
+  background-color: #5a78ff;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+  padding: 0 10px; /* Área de clique aumentada */
+  line-height: 1; /* Alinhamento vertical */
+}
+
+.modal-content {
+  padding: 20px;
+  overflow-y: auto; /* Permite rolagem vertical se o conteúdo for grande */
+  flex-grow: 1; /* Faz o conteúdo ocupar o espaço disponível */
+}
+
+.loading-devices {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  gap: 15px;
+}
+
+.loading-devices .loader {
+  border: 4px solid rgba(90, 120, 255, 0.2);
+  border-top: 4px solid #5a78ff;
+  width: 40px;
+  height: 40px;
+}
+
+.no-devices {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.devices-table-container {
+  overflow-x: auto; /* Permite rolagem horizontal se a tabela for muito larga */
+}
+
+.devices-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.95rem;
+  margin-top: 10px;
 }
 
-.processed-table th {
-  background-color: #1976d2;
-  color: white;
-  padding: 12px 8px;
+.devices-table th, 
+.devices-table td {
+  padding: 12px 15px;
   text-align: left;
-  position: sticky;
-  top: 0;
-}
-
-.processed-table td {
-  padding: 10px 8px;
   border-bottom: 1px solid #eee;
+  white-space: nowrap; /* Evita quebra de linha no cabeçalho e IDs */
 }
 
-.processed-table tr:nth-child(even) {
+.devices-table td:nth-child(4) { /* Coluna de Mensagem */
+  white-space: normal; /* Permite quebra de linha para mensagens longas */
+  word-break: break-word; /* Quebra palavras longas para evitar overflow */
+  min-width: 200px; /* Largura mínima para a coluna de mensagem */
+}
+
+
+.devices-table th {
+  background-color: #f5f7ff;
+  font-weight: 600;
+  color: #5a78ff;
+}
+
+.devices-table tr:hover {
   background-color: #f9f9f9;
 }
 
-.processed-table tr:hover {
-  background-color: #f1f1f1;
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase; /* Transforma o texto do status para maiúsculas */
 }
+
+/* Estilos baseados nos status anteriores */
+.status-badge.active {
+  background-color: #e6f7ee; /* Verde claro */
+  color: #37e254; /* Verde escuro */
+}
+
+.status-badge.inactive {
+  background-color: #ffebee; /* Vermelho claro */
+  color: #ff5252; /* Vermelho escuro */
+}
+
+.status-badge.warning {
+  background-color: #fff8e1; /* Amarelo claro */
+  color: #ffc107; /* Amarelo escuro */
+}
+
+/* Novos estilos para COMANDO ACATADO e AGUARDANDO ENVIO */
+.status-badge.acatado {
+  background-color: #d4edda; /* Verde mais suave */
+  color: #155724; /* Verde escuro */
+  border: 1px solid #c3e6cb;
+}
+
+.status-badge.aguardando {
+  background-color: #fff3cd; /* Amarelo mais suave */
+  color: #856404; /* Amarelo escuro */
+  border: 1px solid #ffeeba;
+}
+
+.status-badge.default-status { /* Estilo para outros status, se houver */
+  background-color: #e9ecef;
+  color: #495057;
+  border: 1px solid #ced4da;
+}
+
 
 @media (max-width: 768px) {
   .header-content {
@@ -293,7 +600,7 @@
   }
   
   .username {
-    display: none;
+    display: none; /* Esconde o nome do usuário em telas menores */
   }
   
   .user-menu {
@@ -313,7 +620,68 @@
     font-size: 0.9rem;
   }
 
-  .processed-table {
-    font-size: 0.85rem;
+  .geofence-cards-container {
+    flex-direction: column;
   }
+  
+  .geofence-card {
+    min-width: 100%; /* Ocupa toda a largura em telas menores */
+  }
+  
+  .geofence-value {
+    font-size: 2rem;
+  }
+
+  .timer-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .timer-value {
+    font-size: 2rem;
+  }
+  
+  .hourglass-icon {
+    font-size: 2rem;
+  }
+
+  .restart-verification-button {
+    font-size: 1rem;
+    padding: 12px 24px;
+  }
+
+  .devices-modal {
+    width: 95%; /* Modal ocupa mais espaço em telas menores */
+  }
+  
+  .devices-table th, 
+  .devices-table td {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    white-space: normal; /* Permite quebra de linha em telas menores */
+  }
+   .devices-table td:nth-child(4) { /* Mensagem em mobile */
+    min-width: 100px;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
+}
+
+@keyframes move { /* Pode ser removida se o ícone do carro não precisar de movimento horizontal */
+  0% { transform: translateX(-2px) scaleX(var(--car-direction, 1)); } /* Usando variável CSS para direção */
+  100% { transform: translateX(2px) scaleX(var(--car-direction, 1)); }
+}
+
+
+@keyframes blink {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
 }

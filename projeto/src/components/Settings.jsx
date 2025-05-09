@@ -61,7 +61,7 @@ const Settings = () => {
     <div className="dashboard-container">
       <header className="dashboard-header">
         <div className="header-content">
-          <h1 className="logo">GARRY</h1>
+          <h1 className="logo">JÚPITER</h1>
           
           <div 
             className="user-area" 
