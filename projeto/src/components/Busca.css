@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+/* Aplicando a fonte Poppins ao corpo e elementos principais */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.busca-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+  position: relative;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif; /* Garantindo que a fonte seja aplicada ao container */
+}
+
+.busca-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.busca-container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2240%22 cy=%2240%22 r=%2230%22 fill=%22none%22 stroke=%22%23ffffff%22 stroke-width=%225%22/%3E%3Cline x1=%2265%22 y1=%2265%22 x2=%2285%22 y2=%2285%22 stroke=%22%23ffffff%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3C/svg%3E') no-repeat center;
+  background-size: contain;
+  opacity: 0.1;
+  z-index: 0;
+  animation: pulse 8s infinite alternate;
+}
+
+@keyframes pulse {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  100% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.busca-title {
+  color: #1565c0;
+  margin-bottom: 0.75rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.busca-subtitle {
+  color: #5f6c7b;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.busca-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.95rem;
+  margin-left: 0.25rem;
+}
+
+.form-input {
+  padding: 0.85rem 1rem;
+  border: 2px solid #e0e3e7;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #f8fafc;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #1565c0;
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.1);
+  background-color: white;
+}
+
+.form-input::placeholder {
+  color: #9aa5b1;
+  opacity: 1;
+}
+
+.input-error {
+  border-color: #e74c3c;
+  background-color: #fff5f5;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+.submit-button {
+  background: linear-gradient(to right, #1565c0, #1976d2);
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  box-shadow: 0 4px 6px rgba(21, 101, 192, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.submit-button:hover::before {
+  left: 100%;
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(21, 101, 192, 0.3);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+}
+
+.submit-button:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.submit-button::after {
+  content: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2240%22 cy=%2240%22 r=%2230%22 fill=%22none%22 stroke=%22%23ffffff%22 stroke-width=%225%22/%3E%3Cline x1=%2265%22 y1=%2265%22 x2=%2285%22 y2=%2285%22 stroke=%22%23ffffff%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3C/svg%3E');
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+}
+
+.voltar-button {
+  margin-top: 1.5rem;
+  background: none;
+  border: none;
+  color: #5f6c7b;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.voltar-button:hover {
+  color: #1565c0;
+  text-decoration: none;
+}
+
+.voltar-button::before {
+  content: '←';
+  font-size: 1rem;
+}
+
+.voltar-button:hover {
+  background-color: #554273;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(252, 252, 252, 0.1);
+}

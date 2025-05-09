@@ -84,7 +84,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container" style={{ fontFamily: "'Poppins', sans-serif" }}>
       {/* Lado esquerdo azul */}
       <div className="login-left">
         <div className="login-left-content">
@@ -116,6 +116,7 @@ const Login = () => {
                 onChange={handleChange}
                 placeholder="exemplo@email.com"
                 className={`form-input ${errors.email ? 'input-error' : ''}`}
+                style={{ fontFamily: "'Poppins', sans-serif" }}
               />
               {errors.email && <span className="error-message">{errors.email}</span>}
             </div>
@@ -131,11 +132,13 @@ const Login = () => {
                   onChange={handleChange}
                   placeholder="Digite sua senha"
                   className={`form-input ${errors.password ? 'input-error' : ''}`}
+                  style={{ fontFamily: "'Poppins', sans-serif" }}
                 />
                 <button
                   type="button"
                   className="password-toggle"
                   onClick={() => setShowPassword(!showPassword)}
+                  style={{ fontFamily: "'Poppins', sans-serif" }}
                 >
                   {showPassword ? '👁️' : '🔒'}
                 </button>
@@ -143,7 +146,11 @@ const Login = () => {
               {errors.password && <span className="error-message">{errors.password}</span>}
             </div>
 
-            <button type="submit" className="submit-button">
+            <button 
+              type="submit" 
+              className="submit-button"
+              style={{ fontFamily: "'Poppins', sans-serif" }}
+            >
               Entrar
             </button>
           </form>
@@ -152,8 +159,9 @@ const Login = () => {
           <button 
             onClick={handleBuscarCliente}
             className="buscar-cliente-button"
+            style={{ fontFamily: "'Poppins', sans-serif" }}
           >
-            Buscar Cliente
+            Acesso Furto/Roubo
           </button>
         </div>
       </div>

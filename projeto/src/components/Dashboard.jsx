@@ -27,6 +27,9 @@ const Dashboard = () => {
   const [showDevicesModal, setShowDevicesModal] = useState(false);
   const [devicesOutsideList, setDevicesOutsideList] = useState([]);
   const [isLoadingDevices, setIsLoadingDevices] = useState(false);
+  const [showTicketsModal, setShowTicketsModal] = useState(false);
+  const [ticketsData, setTicketsData] = useState([]);
+  const [isLoadingTickets, setIsLoadingTickets] = useState(false);
   
   const userPhoto = 'https://media.licdn.com/dms/image/v2/D4D0BAQHpJGnF5-GZZA/company-logo_200_200/company-logo_200_200/0/1667321694116/loovibrasil_logo?e=2147483647&v=beta&t=avAmwjkQlBYBy8GvwWQb2wVaT-4i8rLgn26_bpmOLa0';
   const progressInterval = useRef(null);
@@ -52,88 +55,115 @@ const Dashboard = () => {
     setIsLoadingDevices(true);
     try {
       const response = await axios.get('http://10.0.0.249:5000/get-processed-status');
-      if (response.data && typeof response.data === 'object' && !Array.isArray(response.data)) {
+      
+      if (response.data && typeof response.data === 'object') {
         const devicesArray = Object.entries(response.data).map(([deviceId, deviceData]) => {
-          let displayStatus = "AGUARDANDO ENVIO"; // Valor padrão
+          const rawStatus = deviceData?.status || "STATUS_INDEFINIDO";
+          const status = rawStatus.replace(/_/g, ' ');
+          
+          const rawDateTime = deviceData?.timestamp || deviceData?.send_date;
           let dateTime = "N/A";
-          let message = "N/A";
-
-          if (typeof deviceData === 'object' && deviceData !== null) {
-            // !!!!! ATENÇÃO: AJUSTE OS NOMES DOS CAMPOS E A LÓGICA ABAIXO SE NECESSÁRIO !!!!!
-            // Para Status:
-            // Substitua 'status_api_field' pelo nome real do campo na sua API que indica o status.
-            // Substitua as condições (ex: 'success', 'accepted') pelos valores reais da sua API.
-            const apiStatusValue = deviceData.status_api_field; // Ex: deviceData.command_status ou deviceData.execution_result
-
-            if (apiStatusValue === 'success' || apiStatusValue === 'accepted' || apiStatusValue === 'acatado' /* adicione outras condições de sucesso */) {
-              displayStatus = "COMANDO ACATADO";
-            } else {
-              displayStatus = "AGUARDANDO ENVIO";
-            }
-
-            // Para Data e Hora:
-            // O campo da API é "send_date" e o formato é "AAAA-MM-DD HH:MM:SS"
-            const apiTimestamp = deviceData.send_date; // <<< CORRIGIDO PARA USAR 'send_date'
-            if (apiTimestamp) {
-              try {
-                dateTime = new Date(apiTimestamp).toLocaleString('pt-BR', {
-                  day: '2-digit',
-                  month: '2-digit',
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  second: '2-digit',
-                  hour12: false // Garante o formato de 24 horas
-                });
-              } catch (e) {
-                console.warn("Formato de data inválido:", apiTimestamp, "para o dispositivo:", deviceId, e);
-                dateTime = String(apiTimestamp); // Fallback
-              }
-            } else {
-              dateTime = "Data não informada"; // Ou mantenha "N/A"
-            }
-
-            // Para Mensagem:
-            // Se o campo da mensagem na sua API não for 'message', ajuste aqui.
-            const apiMessage = deviceData.message; 
-            if (typeof apiMessage !== 'undefined') {
-              message = String(apiMessage);
-            }
-            // !!!!! FIM DA SEÇÃO DE AJUSTES !!!!!
-
-          } else {
-            console.warn(`Dados para o dispositivo ${deviceId} não são um objeto:`, deviceData);
-            if (typeof deviceData === 'string') {
-               message = deviceData;
-               displayStatus = "VERIFICAR MANUALMENTE";
+          
+          if (rawDateTime) {
+            try {
+              dateTime = new Date(rawDateTime).toLocaleString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+              });
+            } catch (e) {
+              console.warn("Formato de data inválido:", rawDateTime);
+              dateTime = rawDateTime.toString();
             }
           }
+          
+          const message = deviceData?.message || "Nenhuma mensagem disponível";
 
           return {
             deviceId,
-            displayStatus,
+            status,
             dateTime,
             message
           };
         });
+        
         setDevicesOutsideList(devicesArray);
+        setDevicesOutsideGeofence(devicesArray.length);
+        setDevicesInsideGeofence(totalDevices - devicesArray.length);
       } else {
-        console.error('Estrutura de dados de /get-processed-status inválida ou vazia:', response.data);
+        console.error('Resposta inválida do servidor:', response.data);
         setDevicesOutsideList([]);
       }
     } catch (error) {
-      console.error('Erro ao buscar dispositivos fora da geofence:', error);
+      console.error('Erro ao buscar status dos dispositivos:', error);
       setDevicesOutsideList([]);
     } finally {
       setIsLoadingDevices(false);
     }
   };
 
-  const handleOutsideCardClick = async () => {
-    if (devicesOutsideGeofence > 0) {
-      setShowDevicesModal(true);
-      await fetchDevicesOutsideList();
+  const fetchTicketsData = async () => {
+    setIsLoadingTickets(true);
+    try {
+      // Executa o próximo passo
+      await axios.post('http://10.0.0.249:5000/run-next-step');
+      
+      // Busca os tickets atualizados
+      const response = await axios.get('http://10.0.0.249:5000/get-tickets2');
+      
+      if (response.data && Array.isArray(response.data)) {
+        setTicketsData(response.data.map(ticket => {
+          const nameParts = ticket.name?.split('|') || [];
+          const userName = nameParts[0]?.trim() || 'N/A';
+          const deviceId = nameParts[1]?.trim() || 'N/A';
+          
+          return {
+            userName,
+            deviceId,
+            alerts: ticket.alerts?.join(', ') || 'Nenhum alerta',
+            locationDate: ticket.location_date ? 
+              new Date(ticket.location_date).toLocaleString('pt-BR') : 'N/A',
+            status: ticket.status || 'PENDENTE'
+          };
+        }));
+      } else {
+        console.error('Resposta inválida do servidor para tickets:', response.data);
+        setTicketsData([]);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar tickets:', error);
+      setTicketsData([]);
+    } finally {
+      setIsLoadingTickets(false);
     }
+  };
+
+  const refreshDevicesList = async () => {
+    try {
+      setIsLoadingDevices(true);
+      await axios.post('http://10.0.0.249:5000/run-status-commands');
+      await fetchDevicesOutsideList();
+    } catch (error) {
+      console.error('Erro ao atualizar dispositivos:', error);
+    } finally {
+      setIsLoadingDevices(false);
+    }
+  };
+
+  const handleOutsideCardClick = async () => {
+    if (totalDevices > 0) {
+      setShowDevicesModal(true);
+      await refreshDevicesList();
+    }
+  };
+
+  const handleVerifyAgain = async () => {
+    setShowTicketsModal(true);
+    await fetchTicketsData();
   };
 
   useEffect(() => {
@@ -203,16 +233,7 @@ const Dashboard = () => {
         });
       }, 300);
 
-      await axios.post('http://10.0.0.249:5000/run-pipeline', null, {
-        onUploadProgress: (progressEvent) => {
-          const progress = Math.min(
-            100,
-            Math.round((progressEvent.loaded * 100) / (progressEvent.total || 10000000))
-          );
-          setLoadingProgress(progress);
-          setCarDirection(progress % 20 < 10 ? 'right' : 'left');
-        }
-      });
+      await axios.post('http://10.0.0.249:5000/run-pipeline');
 
       clearInterval(progressInterval.current);
       setLoadingProgress(100);
@@ -221,29 +242,17 @@ const Dashboard = () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       const total = await fetchDevicesData();
-      await axios.post('http://10.0.0.249:5000/run-status-commands');
-      const statusResponse = await axios.get('http://10.0.0.249:5000/get-processed-status');
+      await refreshDevicesList();
       
-      if (statusResponse.data && typeof statusResponse.data === 'object' && Object.keys(statusResponse.data).length > 0) {
-        const outsideCount = Object.keys(statusResponse.data).length;
-        setDevicesOutsideGeofence(outsideCount);
-        setDevicesInsideGeofence(total - outsideCount);
-        
-        setTimer(1 * 60);
-        setIsTimerRunning(true);
-        setShowVerifyAgain(false);
-      } else {
-        setDevicesOutsideGeofence(0);
-        setDevicesInsideGeofence(total);
-      }
-      
+      setTimer(1 * 60);
+      setIsTimerRunning(true);
+      setShowVerifyAgain(false);
       setShowPipelineButton(false);
     } catch (error) {
       console.error('Erro ao executar o pipeline:', error);
       setCurrentProcess("Erro no processamento!");
-      alert('Erro ao executar o pipeline. Verifique o console para mais detalhes.');
       if (progressInterval.current) {
-         clearInterval(progressInterval.current);
+        clearInterval(progressInterval.current);
       }
     } finally {
       setIsLoading(false);
@@ -344,7 +353,7 @@ const Dashboard = () => {
           <div 
             className="geofence-card outside" 
             onClick={handleOutsideCardClick}
-            style={{ cursor: devicesOutsideGeofence > 0 ? 'pointer' : 'default' }}
+            style={{ cursor: totalDevices > 0 ? 'pointer' : 'default' }}
           >
             <h3>Fora da Geofence</h3>
             <div className="geofence-value">{devicesOutsideGeofence.toLocaleString()}</div>
@@ -375,7 +384,7 @@ const Dashboard = () => {
           </div>
         ) : showVerifyAgain ? (
           <div className="timer-container">
-            <button className="restart-verification-button" onClick={handleRunPipeline}>
+            <button className="restart-verification-button" onClick={handleVerifyAgain}>
                VERIFICAR NOVAMENTE
             </button>
           </div>
@@ -385,13 +394,30 @@ const Dashboard = () => {
           <div className="modal-overlay">
             <div className="devices-modal">
               <div className="modal-header">
-                <h2>Dispositivos Fora da Geofence</h2>
-                <button 
-                  className="close-modal" 
-                  onClick={() => setShowDevicesModal(false)}
-                >
-                  &times;
-                </button>
+                <h2>Dispositivos Fora da Geofence ({devicesOutsideList.length})</h2>
+                <div>
+                  <button 
+                    onClick={refreshDevicesList}
+                    disabled={isLoadingDevices}
+                    className="refresh-button"
+                  >
+                    {isLoadingDevices ? (
+                      <>
+                        <span className="refresh-icon">🔄</span> Atualizando...
+                      </>
+                    ) : (
+                      <>
+                        <span className="refresh-icon">🔄</span> Atualizar
+                      </>
+                    )}
+                  </button>
+                  <button 
+                    className="close-modal" 
+                    onClick={() => setShowDevicesModal(false)}
+                  >
+                    &times;
+                  </button>
+                </div>
               </div>
               <div className="modal-content">
                 {isLoadingDevices ? (
@@ -416,11 +442,11 @@ const Dashboard = () => {
                             <td>{device.deviceId}</td>
                             <td>
                               <span className={`status-badge ${
-                                device.displayStatus === "COMANDO ACATADO" ? 'acatado' 
-                                : device.displayStatus === "AGUARDANDO ENVIO" ? 'aguardando' 
+                                device.status.includes("ACATADO") ? 'acatado' 
+                                : device.status.includes("AGUARDANDO") ? 'aguardando'
                                 : 'default-status'
                               }`}>
-                                {device.displayStatus} 
+                                {device.status}
                               </span>
                             </td>
                             <td>{device.dateTime}</td>
@@ -433,6 +459,84 @@ const Dashboard = () => {
                 ) : (
                   <div className="no-devices">
                     Nenhum dispositivo encontrado fora da geofence.
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showTicketsModal && (
+          <div className="modal-overlay">
+            <div className="devices-modal">
+              <div className="modal-header">
+                <h2>Tickets Gerados ({ticketsData.length})</h2>
+                <div>
+                  <button 
+                    onClick={fetchTicketsData}
+                    disabled={isLoadingTickets}
+                    className="refresh-button"
+                  >
+                    {isLoadingTickets ? (
+                      <>
+                        <span className="refresh-icon">🔄</span> Atualizando...
+                      </>
+                    ) : (
+                      <>
+                        <span className="refresh-icon">🔄</span> Atualizar
+                      </>
+                    )}
+                  </button>
+                  <button 
+                    className="close-modal" 
+                    onClick={() => setShowTicketsModal(false)}
+                  >
+                    &times;
+                  </button>
+                </div>
+              </div>
+              <div className="modal-content">
+                {isLoadingTickets ? (
+                  <div className="loading-devices">
+                    <div className="loader"></div>
+                    <span>Carregando tickets...</span>
+                  </div>
+                ) : ticketsData.length > 0 ? (
+                  <div className="devices-table-container">
+                    <table className="devices-table">
+                      <thead>
+                        <tr>
+                          <th>Nome</th>
+                          <th>ID do Dispositivo</th>
+                          <th>Alertas</th>
+                          <th>Data/Hora Localização</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {ticketsData.map((ticket, index) => (
+                          <tr key={index}>
+                            <td>{ticket.userName}</td>
+                            <td>{ticket.deviceId}</td>
+                            <td>{ticket.alerts}</td>
+                            <td>{ticket.locationDate}</td>
+                            <td>
+                              <span className={`status-badge ${
+                                ticket.status === "RESOLVIDO" ? 'acatado' 
+                                : ticket.status === "PENDENTE" ? 'aguardando'
+                                : 'default-status'
+                              }`}>
+                                {ticket.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className="no-devices">
+                    Nenhum ticket encontrado.
                   </div>
                 )}
               </div>
