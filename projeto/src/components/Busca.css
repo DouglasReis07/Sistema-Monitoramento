@@ -1,8 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-/* Aplicando a fonte Poppins ao corpo e elementos principais */
+/* Estilos gerais */
 body {
   font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .busca-container {
@@ -13,27 +15,7 @@ body {
   background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
   position: relative;
   overflow: hidden;
-  font-family: 'Poppins', sans-serif; /* Garantindo que a fonte seja aplicada ao container */
-}
-
-.busca-box {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 2.5rem;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  max-width: 450px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  padding: 20px;
 }
 
 .busca-container::before {
@@ -54,6 +36,26 @@ body {
 @keyframes pulse {
   0% { transform: translate(-50%, -50%) scale(1); }
   100% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.busca-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .busca-title {
@@ -174,12 +176,57 @@ body {
   box-shadow: none;
 }
 
-.submit-button::after {
-  content: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2240%22 cy=%2240%22 r=%2230%22 fill=%22none%22 stroke=%22%23ffffff%22 stroke-width=%225%22/%3E%3Cline x1=%2265%22 y1=%2265%22 x2=%2285%22 y2=%2285%22 stroke=%22%23ffffff%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3C/svg%3E');
+.spinner {
   display: inline-block;
-  width: 20px;
-  height: 20px;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Estilos do Mapa Ampliado */
+.map-section {
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.map-container {
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.map-title {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.map-coordinates {
+  display: flex;
+  justify-content: space-between;
+  background: #f8f9fa;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #34495e;
+  border: 1px solid #e0e3e7;
 }
 
 .voltar-button {
@@ -190,7 +237,7 @@ body {
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 500;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -198,16 +245,10 @@ body {
 
 .voltar-button:hover {
   color: #1565c0;
-  text-decoration: none;
+  transform: translateX(-3px);
 }
 
 .voltar-button::before {
   content: '←';
   font-size: 1rem;
-}
-
-.voltar-button:hover {
-  background-color: #554273;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(252, 252, 252, 0.1);
 }

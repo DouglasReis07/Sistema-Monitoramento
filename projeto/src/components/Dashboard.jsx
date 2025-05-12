@@ -36,7 +36,7 @@ const Dashboard = () => {
 
   const fetchDevicesData = async () => {
     try {
-      const response = await axios.get('http://10.0.0.249:5000/get-devices-data');
+      const response = await axios.get('http://10.0.0.64:5000/get-devices-data');
       
       if (response.data && response.data.code === 0 && Array.isArray(response.data.devices)) {
         const devices = response.data.devices;
@@ -54,7 +54,7 @@ const Dashboard = () => {
   const fetchDevicesOutsideList = async () => {
     setIsLoadingDevices(true);
     try {
-      const response = await axios.get('http://10.0.0.249:5000/get-processed-status');
+      const response = await axios.get('http://10.0.0.64:5000/get-processed-status');
       
       if (response.data && typeof response.data === 'object') {
         const devicesArray = Object.entries(response.data).map(([deviceId, deviceData]) => {
@@ -110,10 +110,10 @@ const Dashboard = () => {
     setIsLoadingTickets(true);
     try {
       // Executa o próximo passo
-      await axios.post('http://10.0.0.249:5000/run-next-step');
+      await axios.post('http://10.0.0.64:5000/run-next-step');
       
       // Busca os tickets atualizados
-      const response = await axios.get('http://10.0.0.249:5000/get-tickets2');
+      const response = await axios.get('http://10.0.0.64:5000/get-tickets2');
       
       if (response.data && Array.isArray(response.data)) {
         setTicketsData(response.data.map(ticket => {
@@ -145,7 +145,7 @@ const Dashboard = () => {
   const refreshDevicesList = async () => {
     try {
       setIsLoadingDevices(true);
-      await axios.post('http://10.0.0.249:5000/run-status-commands');
+      await axios.post('http://10.0.0.64:5000/run-status-commands');
       await fetchDevicesOutsideList();
     } catch (error) {
       console.error('Erro ao atualizar dispositivos:', error);
@@ -233,7 +233,7 @@ const Dashboard = () => {
         });
       }, 300);
 
-      await axios.post('http://10.0.0.249:5000/run-pipeline');
+      await axios.post('http://10.0.0.64:5000/run-pipeline');
 
       clearInterval(progressInterval.current);
       setLoadingProgress(100);
