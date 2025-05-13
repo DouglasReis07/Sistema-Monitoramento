@@ -81,56 +81,6 @@ Qualquer uso não autorizado poderá resultar em medidas legais.
 Este projeto não está licenciado para uso público nem comercial.
 
 
-Se quiser, posso salvar esse conteúdo em um arquivo `README.md` e te enviar ou te ajudar a colocá-lo no seu repositório do GitHub. Deseja isso?
-Você disse:
-me de ele completo que vou copiar e colar  la
-O ChatGPT disse:
-Claro, Douglas! Aqui está o conteúdo completo do README.md pronto para você copiar e colar no seu repositório:
-
-# Tela de Login - React
-
-## Passo 1: Instalar Node.js e npm
-
-- Baixe e instale o Node.js do site oficial: [https://nodejs.org/](https://nodejs.org/)
-- Verifique se a instalação foi concluída com sucesso executando os comandos abaixo no PowerShell ou terminal:
-
-```bash
-node -v
-npm -v
-Passo 2: Clonar o Repositório
-Clone este repositório para sua máquina local:
-
-git clone https://github.com/DouglasReis07/Tela-login.git
-cd Tela-login
-Passo 3: Instalar Dependências
-Instale todas as dependências necessárias para rodar o projeto:
-
-npm install
-Passo 4: Desbloquear Execução de Scripts no PowerShell
-Abra o PowerShell como Administrador e execute o comando abaixo para permitir a execução de scripts locais:
-
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-Digite "S" quando solicitado para confirmar.
-
-Passo 5: Rodar o Projeto
-Após instalar as dependências e ajustar a política de execução, rode o servidor de desenvolvimento com:
-
-npm start
-O projeto estará disponível no seu navegador, normalmente em: http://localhost:3000.
-
-Passo 6: Desenvolvedores
-
-• Front-End: Douglas Reis e Gustavo Meira
-
-• Back-End: Gerson Moreira
-
-⚠️ Aviso de Direitos Autorais
-Este projeto é fechado e protegido por direitos autorais.
-
-Não é permitido copiar, redistribuir, modificar, comercializar ou publicar este projeto, no todo ou em parte.
-
-Não é autorizado alegar autoria ou coautoria sem permissão expressa do autor.
-
 Qualquer uso não autorizado poderá resultar em medidas legais.
 
 Este projeto não está licenciado para uso público nem comercial.
