@@ -1,70 +1,100 @@
-# Getting Started with Create React App
+### **Guia de Inicialização do Projeto - Jupiter**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### **1. Clonando o Repositório**
 
-## Available Scripts
+Execute o seguinte comando no terminal para clonar o repositório do projeto:
 
-In the project directory, you can run:
+```bash
+git clone https://github.com/DouglasReis07/Tela-login/
+```
 
-### `npm start`
+Isso criará uma cópia local do repositório na sua máquina.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### **2. Alternando para a Branch v1.0**
 
-### `npm test`
+Após clonar o repositório, navegue até a pasta do projeto e altere para a branch **v1.0** com o comando:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+git switch v1.0
+```
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### **3. Atualizando o Repositório**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Garanta que o repositório local está atualizado com as últimas alterações do remoto utilizando:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+git pull
+```
 
-### `npm run eject`
+Isso sincroniza o repositório local com o servidor remoto.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### **4. Navegando para o Diretório do Projeto**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Entre no diretório raiz do projeto com:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+cd projeto
+```
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### **5. Instalando Dependências**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Instale todas as dependências necessárias para o funcionamento do projeto utilizando o comando:
 
-### Code Splitting
+```bash
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Esse comando verificará o arquivo `package.json` e instalará as bibliotecas e pacotes necessários.
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+#### **6. Iniciando o Projeto**
 
-### Making a Progressive Web App
+Após a instalação, inicie o projeto com:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+npm start
+```
 
-### Advanced Configuration
+O comando iniciará o servidor de desenvolvimento e abrirá o projeto no navegador padrão.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+#### **Resumo dos Comandos**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+git clone https://github.com/DouglasReis07/Tela-login/
+git switch v1.0
+git pull
+cd projeto
+npm install
+npm start
+```
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### **Requisitos**
+
+* **Node.js**: Certifique-se de que o Node.js (versão recomendada: LTS) está instalado na sua máquina.
+* **NPM**: O gerenciador de pacotes do Node.js deve estar configurado corretamente.
+
+---
+
+#### **Observações**
+
+1. Se houver problemas ao executar o comando `npm start`, verifique:
+
+   * Erros nas dependências instaladas.
+   * A versão do Node.js e do NPM.
+   * Se as portas do servidor local (geralmente `http://localhost:3000`) estão livres.
+2. Consulte o arquivo `README.md` do repositório para informações adicionais ou instruções específicas do projeto.
+
+Com estas etapas, o projeto estará configurado e em execução na sua máquina.
