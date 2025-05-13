@@ -1,85 +1,78 @@
-Passo 1: Instalar o Node.js e npm
-    Baixar e Instalar o Node.js:
-
-    Acesse o site oficial do Node.js: Node.js Official Website
-
-    Baixe a versão recomendada para a maioria dos usuários (LTS).
-
-    Siga as instruções do instalador para o seu sistema operacional.
-
-    Verificar Instalação:
-    Após a instalação, abra o PowerShell ou terminal e execute os comandos abaixo para verificar se o Node.js e o npm foram instalados corretamente:
-
-    node -v
-    npm -v
+Guia de Inicialização do Projeto - Tela de Login
+Este guia descreve o processo para clonar, configurar e executar o projeto Tela de Login a partir do repositório do GitHub.
 
 
-Passo 2: Clonar o Repositório
-    Clone o repositório do seu projeto React do GitHub para o seu computador:
+1. Clonando o Repositório
+Execute o seguinte comando no terminal para clonar o repositório do projeto:
 
-    Clone o Repositório:
-    No PowerShell ou terminal, execute o comando:
+git clone https://github.com/DouglasReis07/Tela-login/
 
-    git clone https://github.com/DouglasReis07/Tela-login.git
-    cd Tela-login
+Isso criará uma cópia local do repositório na sua máquina.
 
 
-Passo 3: Instalar as Dependências do Projeto
-    Agora, instale todas as dependências do projeto React que estão listadas no arquivo package.json:
+2. Alternando para a Branch v1.0
+Após clonar o repositório, navegue até a pasta do projeto e altere para a branch v1.0 com o comando:
 
-    Instalar Dependências:
-
-    Execute o comando:
-
-    npm install
+git switch v1.0
 
 
-Passo 4: Desbloquear Execução de Scripts no PowerShell
-    Para permitir que o PowerShell execute scripts, você precisará alterar a política de execução.
+3. Atualizando o Repositório
+Garanta que o repositório local está atualizado com as últimas alterações do remoto utilizando:
 
-    Abrir PowerShell como Administrador:
+git pull
 
-    Clique com o botão direito no ícone do PowerShell e selecione Executar como Administrador.
-
-    Desbloquear Execução de Scripts:
-    Execute o seguinte comando para permitir a execução de scripts:
-
-    Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-
-    Este comando permite a execução de scripts locais não assinados, mas exige que os scripts baixados da internet sejam assinados.
-
-    Quando solicitado, digite "S" para confirmar.
-
-Passo 5: Rodar o Projeto
-    Agora que todas as dependências estão instaladas e a política de execução de scripts foi ajustada, você pode rodar o seu projeto React:
-
-    Iniciar o Servidor de Desenvolvimento:
-
-    Execute o seguinte comando:
-
-    npm start
-
-    O servidor de desenvolvimento será iniciado, e você pode acessar o projeto no navegador no seu endereço.
+Isso sincroniza o repositório local com o servidor remoto.
 
 
-RESUMO COMPLETO:
+4. Navegando para o Diretório do Projeto
+Entre no diretório raiz do projeto com:
 
-# Passo 1: Instalar Node.js e npm
-# Baixe e instale o Node.js do site oficial: https://nodejs.org/
-# Verifique as versões do Node.js e npm
-node -v
-npm -v
+cd projeto
 
-# Passo 2: Clonar o Repositório
-git clone https://github.com/DouglasReis07/Tela-login.git
-cd Tela-login
 
-# Passo 3: Instalar Dependências
+5. Instalando Dependências
+Instale todas as dependências necessárias para o funcionamento do projeto utilizando o comando:
+
 npm install
 
-# Passo 4: Desbloquear Execução de Scripts no PowerShell
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+Esse comando verificará o arquivo package.json e instalará as bibliotecas e pacotes necessários.
 
-# Passo 5: Rodar o Projeto
+
+6. Iniciando o Projeto
+Após a instalação, inicie o projeto com:
+
 npm start
 
+O comando iniciará o servidor de desenvolvimento e abrirá o projeto no navegador padrão.
+
+
+Resumo dos Comandos
+git clone https://github.com/DouglasReis07/Tela-login/
+git switch v1.0
+git pull
+cd projeto
+npm install
+npm start
+
+
+Requisitos
+
+Node.js: Certifique-se de que o Node.js (versão recomendada: LTS) está instalado na sua máquina.
+
+
+NPM: O gerenciador de pacotes do Node.js deve estar configurado corretamente.
+
+
+
+Observações
+
+Se houver problemas ao executar o comando npm start, verifique:
+
+
+Erros nas dependências instaladas.
+
+
+A versão do Node.js e do NPM.
+
+
+Se as portas do servidor local (geralmente http://localhost:3000) estão livres.
