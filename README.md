@@ -80,7 +80,3 @@ Qualquer uso não autorizado poderá resultar em medidas legais.
 
 Este projeto não está licenciado para uso público nem comercial.
 
-
-Qualquer uso não autorizado poderá resultar em medidas legais.
-
-Este projeto não está licenciado para uso público nem comercial.
