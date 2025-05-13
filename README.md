@@ -83,3 +83,6 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 # Passo 5: Rodar o Projeto
 npm start
 
+Front-End desenvolvido por Douglas Reis e Gustavo Meira.
+Back-End desenvolvido por Gerson Moreira.
+
