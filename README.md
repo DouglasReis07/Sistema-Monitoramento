@@ -20,7 +20,7 @@
     Clone o Repositório:
     No PowerShell ou terminal, execute o comando:
 
-    git clone https://github.com/DouglasReis07/TSistema-Monitoramento.git
+    git clone https://github.com/DouglasReis07/Sistema-Monitoramento.git
     cd Tela-login
 
 
