@@ -80,7 +80,7 @@ const Login = () => {
   };
 
   const handleBuscarCliente = () => {
-    navigate('/busca');
+    navigate('/');
   };
 
   return (
