@@ -116,9 +116,6 @@ const BuscaCliente = () => {
               {isLoading ? 'Buscando...' : 'Buscar'}
             </button>
           </form>
-          <button onClick={() => navigate('/')} className="header-back-button">
-            Voltar
-          </button>
         </div>
       </header>
 

@@ -5,9 +5,10 @@ const formatTimestamp = (timestamp) => {
   if (!timestamp || isNaN(timestamp)) {
     return 'Data não disponível';
   }
-  // Assumindo que o timestamp seja em segundos; multiplicamos por 1000 para milissegundos
-  const date = new Date(timestamp * 1000);
-  
+
+  // Aqui não multiplicamos por 1000, pois o timestamp já está em milissegundos
+  const date = new Date(timestamp);
+
   // Verificação extra para evitar datas absurdas
   if (date.getFullYear() < 1970 || date.getFullYear() > 2100) {
     return 'Data inválida';
