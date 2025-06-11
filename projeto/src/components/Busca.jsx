@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Busca.css';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import DeviceInfoCard from './DeviceInfoCard'; // Importe o novo componente
+import DeviceInfoCard from './DeviceInfoCard';
+import { motion } from 'framer-motion'; // Importando Framer Motion para animações
 
 const BuscaCliente = () => {
   const navigate = useNavigate();
@@ -12,11 +13,9 @@ const BuscaCliente = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [mapCoordinates, setMapCoordinates] = useState(null);
   const [devices, setDevices] = useState([]);
-  
-  // Novo estado para guardar os dados do dispositivo encontrado
   const [selectedDevice, setSelectedDevice] = useState(null);
-  // Novo estado para o endereço buscado via geocodificação
   const [deviceAddress, setDeviceAddress] = useState('');
+  const [hasSearched, setHasSearched] = useState(false); // Novo estado para controlar se já fez busca
 
   useEffect(() => {
     const fetchDevices = async () => {
@@ -36,7 +35,6 @@ const BuscaCliente = () => {
     fetchDevices();
   }, []);
 
-  // Função para buscar o endereço a partir das coordenadas
   const fetchAddress = async (lat, lng) => {
     if (!lat && !lng) {
       setDeviceAddress('Endereço não disponível (coordenadas zeradas)');
@@ -59,7 +57,7 @@ const BuscaCliente = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setSelectedDevice(null); // Limpa o card anterior
+    setSelectedDevice(null);
     setDeviceAddress('');
 
     if (!numeroContrato.trim()) {
@@ -78,8 +76,9 @@ const BuscaCliente = () => {
         const { lat, lng } = filteredDevice.status;
         if (typeof lat !== 'undefined' && typeof lng !== 'undefined') {
           setMapCoordinates({ lat, lng });
-          setSelectedDevice(filteredDevice); // Guarda o dispositivo encontrado
-          fetchAddress(lat, lng); // Busca o endereço
+          setSelectedDevice(filteredDevice);
+          fetchAddress(lat, lng);
+          setHasSearched(true); // Marca que já fez uma busca
         } else {
           setError('Coordenadas inválidas ou não informadas.');
         }
@@ -122,7 +121,6 @@ const BuscaCliente = () => {
       <main className="map-main">
         {error && <p className="error-message">{error}</p>}
         
-        {/* Card de informações do dispositivo */}
         {selectedDevice && (
           <DeviceInfoCard 
             device={selectedDevice} 
@@ -131,21 +129,60 @@ const BuscaCliente = () => {
           />
         )}
 
-        <div className="map-container">
-          <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-            <GoogleMap
-              mapContainerStyle={{ width: '100%', height: '100%' }}
-              center={mapCoordinates || { lat: -14.235004, lng: -51.92528 }}
-              zoom={mapCoordinates ? 17 : 4}
-              options={{ streetViewControl: false, mapTypeControl: false }}
-            >
-              {mapCoordinates && <Marker position={mapCoordinates} />}
-            </GoogleMap>
-          </LoadScript>
-        </div>
-        
-        {!mapCoordinates && !error && (
-          <p className="placeholder">Pesquise um cliente para visualizar sua localização no mapa.</p>
+        {hasSearched ? (
+          <div className="map-container">
+            <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
+              <GoogleMap
+                mapContainerStyle={{ width: '100%', height: '100%' }}
+                center={mapCoordinates || { lat: -14.235004, lng: -51.92528 }}
+                zoom={mapCoordinates ? 17 : 4}
+                options={{ streetViewControl: false, mapTypeControl: false }}
+              >
+                {mapCoordinates && <Marker position={mapCoordinates} />}
+              </GoogleMap>
+            </LoadScript>
+          </div>
+        ) : (
+          <motion.div 
+            className="initial-animation"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="animation-content">
+              <motion.div 
+                className="pulse-circle"
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.8, 1, 0.8]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <svg width="200" height="200" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" fill="#4285F4"/>
+                </svg>
+              </motion.div>
+              <h2>Localize seu cliente</h2>
+              <p>Digite a Chave Natural acima para visualizar a localização no mapa</p>
+              <motion.div 
+                className="arrow-down"
+                animate={{
+                  y: [0, 10, 0]
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+              
+              </motion.div>
+            </div>
+          </motion.div>
         )}
       </main>
     </div>
