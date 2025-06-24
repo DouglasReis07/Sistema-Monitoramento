@@ -1,190 +1,354 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './Busca.css';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import DeviceInfoCard from './DeviceInfoCard';
-import { motion } from 'framer-motion'; // Importando Framer Motion para animações
+import { motion, AnimatePresence } from 'framer-motion';
+import './Busca.css';
 
 const BuscaCliente = () => {
-  const navigate = useNavigate();
+  // Estados
   const [numeroContrato, setNumeroContrato] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [mapCoordinates, setMapCoordinates] = useState(null);
-  const [devices, setDevices] = useState([]);
+  const [allDevices, setAllDevices] = useState([]);
+  const [allMarkers, setAllMarkers] = useState([]);
+  const [filteredMarkers, setFilteredMarkers] = useState([]);
   const [selectedDevice, setSelectedDevice] = useState(null);
   const [deviceAddress, setDeviceAddress] = useState('');
-  const [hasSearched, setHasSearched] = useState(false); // Novo estado para controlar se já fez busca
+  const [showAllMarkers, setShowAllMarkers] = useState(true);
+  const [mapCenter, setMapCenter] = useState({ lat: -14.235004, lng: -51.92528 });
+  const [mapZoom, setMapZoom] = useState(4);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
 
+  // Carregar dispositivos
   useEffect(() => {
     const fetchDevices = async () => {
       try {
-        const response = await axios.get('http://192.168.0.94:5000/get-devices-data', {
-          headers: { 'X-API-KEY': process.env.REACT_APP_API_KEY },
+        setIsLoading(true);
+        const response = await axios.get('https://03ae-187-32-76-162.ngrok-free.app:5004/api/devices', {
+          headers: { 'x-api-key': '123456789' }
         });
-        if (response.data && response.data.devices) {
-          setDevices(response.data.devices);
-        } else {
-          setError('Erro ao carregar os dispositivos.');
+        
+        if (response.data) {
+          // Transformação de dados otimizada
+          const devicesArray = Object.entries(response.data).flatMap(([email, userData]) => 
+            userData.devices?.map(device => ({ ...device, email })) || []
+          );
+          
+          setAllDevices(devicesArray);
+          
+          // Criação de marcadores otimizada
+          const markers = devicesArray.reduce((acc, device) => {
+            const position = getDevicePosition(device);
+            return position ? [...acc, {
+              id: device.device_key,
+              position,
+              device: { ...device, ...position }
+            }] : acc;
+          }, []);
+          
+          setAllMarkers(markers);
+          setFilteredMarkers(markers);
+          
+          if (markers.length > 0) {
+            setMapCenter(markers[0].position);
+            setMapZoom(10);
+          }
         }
       } catch (error) {
-        setError('Falha ao carregar a lista de dispositivos. Verifique a conexão.');
+        setError('Falha ao carregar dispositivos. Tente novamente.');
+      } finally {
+        setIsLoading(false);
       }
     };
+    
     fetchDevices();
   }, []);
 
+  // Funções auxiliares
+  const getDevicePosition = (device) => {
+    if (device.status?.lat && device.status?.lng && 
+        device.status.lat !== 0 && device.status.lng !== 0) {
+      return { lat: device.status.lat, lng: device.status.lng };
+    } 
+    if (device.lbs_position?.lat && device.lbs_position?.lng) {
+      return { lat: device.lbs_position.lat, lng: device.lbs_position.lng };
+    }
+    return null;
+  };
+
   const fetchAddress = async (lat, lng) => {
-    if (!lat && !lng) {
-      setDeviceAddress('Endereço não disponível (coordenadas zeradas)');
+    if (!lat || !lng) {
+      setDeviceAddress('Endereço indisponível');
       return;
     }
+    
     setDeviceAddress('Buscando endereço...');
+    
     try {
-      const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.REACT_APP_Maps_API_KEY}`;
-      const response = await axios.get(geocodeUrl);
-      if (response.data.results && response.data.results.length > 0) {
-        setDeviceAddress(response.data.results[0].formatted_address);
-      } else {
-        setDeviceAddress('Endereço não encontrado para estas coordenadas.');
-      }
-    } catch (error) {
-      setDeviceAddress('Não foi possível buscar o endereço.');
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`
+      );
+      
+      setDeviceAddress(
+        response.data.results?.[0]?.formatted_address || 
+        'Endereço não encontrado'
+      );
+    } catch {
+      setDeviceAddress('Erro ao buscar endereço');
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-    setError('');
-    setSelectedDevice(null);
-    setDeviceAddress('');
-
+    
     if (!numeroContrato.trim()) {
-      setError('Por favor, insira o número do contrato');
+      setError('Por favor, informe a chave natural');
       return;
     }
-
+    
+    setError('');
+    setSelectedDevice(null);
     setIsLoading(true);
 
     try {
-      const filteredDevice = devices.find(
-        (device) => device.config?.name === numeroContrato
-      );
-
-      if (filteredDevice) {
-        const { lat, lng } = filteredDevice.status;
-        if (typeof lat !== 'undefined' && typeof lng !== 'undefined') {
-          setMapCoordinates({ lat, lng });
-          setSelectedDevice(filteredDevice);
-          fetchAddress(lat, lng);
-          setHasSearched(true); // Marca que já fez uma busca
-        } else {
-          setError('Coordenadas inválidas ou não informadas.');
-        }
-      } else {
-        setError('Dispositivo não encontrado.');
+      const device = allDevices.find(d => d.config?.name === numeroContrato);
+      
+      if (!device) {
+        setError('Dispositivo não encontrado');
+        return;
       }
-    } catch (error) {
-      setError('Erro ao buscar os dados. Tente novamente mais tarde.');
+      
+      const position = getDevicePosition(device);
+      
+      if (!position) {
+        setError('Coordenadas indisponíveis');
+        return;
+      }
+      
+      // Atualiza o mapa e dispositivo selecionado
+      setMapCenter(position);
+      setMapZoom(17);
+      setSelectedDevice({ ...device, ...position });
+      setFilteredMarkers([{ id: device.device_key, position, device }]);
+      setShowAllMarkers(false);
+      fetchAddress(position.lat, position.lng);
+    } catch {
+      setError('Erro na busca');
     } finally {
       setIsLoading(false);
     }
   };
-  
-  const handleCloseCard = () => {
+
+  const resetSearch = () => {
+    setNumeroContrato('');
     setSelectedDevice(null);
-    setMapCoordinates(null);
+    setFilteredMarkers(allMarkers);
+    setShowAllMarkers(true);
+    setMapCenter({ lat: -14.235004, lng: -51.92528 });
+    setMapZoom(4);
   };
 
   return (
-    <div className="busca-container">
-      <header className="header">
-        <img src="/logo.png" alt="JUPITER" className="logo" />
-        <div className="header-actions">
-          <form onSubmit={handleSubmit} className="header-form">
+    <div className="map-layout">
+      {/* Mapa ocupando toda a tela */}
+      <div className="map-container">
+        {!isMapLoaded && (
+          <div className="map-skeleton">
+            <div className="skeleton-loader"></div>
+            <p>Carregando mapa...</p>
+          </div>
+        )}
+        
+        <LoadScript 
+          googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+          onLoad={() => setIsMapLoaded(true)}
+        >
+          <GoogleMap
+            mapContainerStyle={{ width: '100%', height: '100%' }}
+            center={mapCenter}
+            zoom={mapZoom}
+            options={{
+              styles: [
+                {
+                  featureType: "poi",
+                  stylers: [{ visibility: "off" }]
+                },
+                {
+                  featureType: "transit",
+                  elementType: "labels.icon",
+                  stylers: [{ visibility: "off" }]
+                }
+              ],
+              disableDefaultUI: true,
+              zoomControl: true,
+              streetViewControl: true
+            }}
+          >
+            {(showAllMarkers ? allMarkers : filteredMarkers).map(marker => (
+              <Marker
+                key={marker.id}
+                position={marker.position}
+                onClick={() => {
+                  setSelectedDevice(marker.device);
+                  setMapCenter(marker.position);
+                  setMapZoom(17);
+                  fetchAddress(marker.position.lat, marker.position.lng);
+                }}
+                icon={{
+                  url: marker.id === (selectedDevice?.device_key || '') 
+                    ? 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
+                    : 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                  scaledSize: new window.google.maps.Size(40, 40)
+                }}
+              />
+            ))}
+          </GoogleMap>
+        </LoadScript>
+      </div>
+
+      {/* Header flutuante */}
+      <motion.header 
+        className="floating-header"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", damping: 15 }}
+      >
+        <div className="header-content">
+          <motion.div 
+            className="logo-section"
+            whileHover={{ scale: 1.05 }}
+          >
+   
+   <span className="counter-icon">📍</span>
+            <h1 className="app-title">Jupiter</h1>
+          </motion.div>
+        </div>
+      </motion.header>
+
+      {/* Overlay de busca centralizado */}
+      <div className="search-overlay">
+        <form className="search-form" onSubmit={handleSearch}>
+          <div className="input-group">
             <input
               type="text"
-              id="contrato"
               value={numeroContrato}
               onChange={(e) => setNumeroContrato(e.target.value)}
-              placeholder="Digite a Chave Natural do cliente"
-              className="header-input"
+              placeholder="Digite a Chave Natural"
+              className="search-input"
             />
-            <button type="submit" className="header-button" disabled={isLoading}>
-              {isLoading ? 'Buscando...' : 'Buscar'}
-            </button>
-          </form>
-        </div>
-      </header>
-
-      <main className="map-main">
-        {error && <p className="error-message">{error}</p>}
-        
-        {selectedDevice && (
-          <DeviceInfoCard 
-            device={selectedDevice} 
-            address={deviceAddress}
-            onClose={handleCloseCard}
-          />
-        )}
-
-        {hasSearched ? (
-          <div className="map-container">
-            <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-              <GoogleMap
-                mapContainerStyle={{ width: '100%', height: '100%' }}
-                center={mapCoordinates || { lat: -14.235004, lng: -51.92528 }}
-                zoom={mapCoordinates ? 17 : 4}
-                options={{ streetViewControl: false, mapTypeControl: false }}
+            <div className="button-group">
+              <motion.button
+                type="submit"
+                className="search-button"
+                disabled={isLoading}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
               >
-                {mapCoordinates && <Marker position={mapCoordinates} />}
-              </GoogleMap>
-            </LoadScript>
+                {isLoading ? (
+                  <div className="spinner"></div>
+                ) : (
+                  <>
+                    <span className="icon">🔍</span> Buscar
+                  </>
+                )}
+              </motion.button>
+              <motion.button
+                type="button"
+                className="reset-button"
+                onClick={resetSearch}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span className="icon">🔄</span> Limpar
+              </motion.button>
+            </div>
           </div>
-        ) : (
-          <motion.div 
-            className="initial-animation"
-            initial={{ opacity: 0, y: 20 }}
+        </form>
+      </div>
+
+      {/* Mensagens de erro sobrepostas */}
+      <AnimatePresence>
+        {error && (
+          <motion.div
+            className="error-overlay"
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            exit={{ opacity: 0, y: -20 }}
           >
-            <div className="animation-content">
-              <motion.div 
-                className="pulse-circle"
-                animate={{
-                  scale: [1, 1.1, 1],
-                  opacity: [0.8, 1, 0.8]
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                <svg width="200" height="200" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" fill="#4285F4"/>
-                </svg>
-              </motion.div>
-              <h2>Localize seu cliente</h2>
-              <p>Digite a Chave Natural acima para visualizar a localização no mapa</p>
-              <motion.div 
-                className="arrow-down"
-                animate={{
-                  y: [0, 10, 0]
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
+            {error}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Card de informações do dispositivo */}
+      <AnimatePresence>
+        {selectedDevice && (
+          <motion.div
+            className="device-card-overlay"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <div className="card-header">
+              <h3>Informações do Dispositivo</h3>
+              <button className="close-button" onClick={() => setSelectedDevice(null)}>
+                &times;
+              </button>
+            </div>
+            
+            <div className="card-content">
+              <div className="info-row">
+                <span className="info-label">Chave:</span>
+                <span className="info-value">{selectedDevice.config?.name || 'N/A'}</span>
+              </div>
               
-              </motion.div>
+              <div className="info-row">
+                <span className="info-label">Email:</span>
+                <span className="info-value">{selectedDevice.email || 'N/A'}</span>
+              </div>
+              
+              <div className="info-row">
+                <span className="info-label">Modelo:</span>
+                <span className="info-value">{selectedDevice.model || 'N/A'}</span>
+              </div>
+              
+              <div className="info-row">
+                <span className="info-label">Endereço:</span>
+                <span className="info-value">{deviceAddress || 'Carregando...'}</span>
+              </div>
+              
+              <div className="info-row">
+                <span className="info-label">Última atualização:</span>
+                <span className="info-value">
+                  {selectedDevice.status?.location_date 
+                    ? new Date(selectedDevice.status.location_date).toLocaleString() 
+                    : 'N/A'}
+                </span>
+              </div>
             </div>
           </motion.div>
         )}
-      </main>
+      </AnimatePresence>
+
+      {/* Contador de dispositivos */}
+      <motion.div 
+        className="counter-overlay"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+      >
+        <div className="counter-content">
+          <span className="counter-icon">📍</span>
+          {allMarkers.length} dispositivos ativos
+        </div>
+      </motion.div>
+
+      {/* Footer flutuante */}
+      <footer className="floating-footer">
+        <p>Jupiter power Loovi &copy; {new Date().getFullYear()}</p>
+        <p>Atualizado em: {new Date().toLocaleDateString('pt-BR')}</p>
+      </footer>
     </div>
   );
 };
