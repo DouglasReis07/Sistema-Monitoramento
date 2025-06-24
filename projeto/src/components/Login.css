@@ -1,14 +1,22 @@
+/* Adicione a importação da fonte no início do arquivo */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
 .login-container {
   display: flex;
   min-height: 100vh;
   background: #ffffff;
   padding: 0;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Lado esquerdo azul com borda arredondada à direita */
 .login-left {
   flex: 1;
-  background: linear-gradient(135deg, #1e88e5, #0d47a1);
+  background: linear-gradient(135deg, #1e88e5, #5a78ff);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,6 +24,7 @@
   border-top-right-radius: 150px;
   border-bottom-right-radius: 150px;
   transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Conteúdo do lado esquerdo */
@@ -25,16 +34,18 @@
   text-align: center;
   align-self: flex-start;
   margin-top: 3rem;
+  font-family: 'Poppins', sans-serif;
 }
-
 
 .login-left-content h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .login-left-content p {
   font-size: 1.1rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Lado direito branco */
@@ -44,6 +55,7 @@
   align-items: center;
   justify-content: center;
   background: white;
+  font-family: 'Poppins', sans-serif;
 }
 
 .login-box {
@@ -53,6 +65,7 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   width: 320px;
   transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
 }
 
 .login-box:hover {
@@ -61,26 +74,30 @@
 }
 
 .login-title {
-  color: #1565c0;
+  color: #5a78ff;
   text-align: center;
   margin-bottom: 2.5rem;
   font-size: 1.5rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .password-input-container {
   position: relative;
+  font-family: 'Poppins', sans-serif;
 }
 
 .password-toggle {
@@ -92,12 +109,14 @@
   border: none;
   cursor: pointer;
   font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .form-label {
   color: #424242;
   font-size: 0.9rem;
   font-weight: 500;
+  font-family: 'Poppins', sans-serif;
 }
 
 .form-input {
@@ -107,11 +126,12 @@
   font-size: 1rem;
   transition: all 0.3s;
   width: 90%;
+  font-family: 'Poppins', sans-serif;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #1976d2;
+  border-color: #5a78ff;
   box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
 }
 
@@ -128,6 +148,7 @@
   color: #f44336;
   font-size: 0.8rem;
   margin-top: 0.2rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .auth-error {
@@ -138,10 +159,11 @@
   margin-bottom: 1rem;
   text-align: center;
   font-size: 0.9rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .submit-button {
-  background: #1976d2;
+  background: #5a78ff;
   color: white;
   border: none;
   padding: 0.8rem;
@@ -152,6 +174,7 @@
   transition: background 0.3s;
   margin-top: 1rem;
   width: 100%;
+  font-family: 'Poppins', sans-serif;
 }
 
 .submit-button:hover {
@@ -166,6 +189,7 @@
 @media (max-width: 768px) {
   .login-container {
     flex-direction: column;
+    font-family: 'Poppins', sans-serif;
   }
 
   .login-left {
@@ -175,12 +199,14 @@
   .login-right {
     width: 100%;
     padding: 2rem;
+    font-family: 'Poppins', sans-serif;
   }
 
   .login-box {
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
+    font-family: 'Poppins', sans-serif;
   }
 }
 
@@ -220,6 +246,6 @@
   .buscar-cliente-button {
     padding: 10px;
     font-size: 0.9rem;
+    font-family: 'Poppins', sans-serif;
   }
 }
-

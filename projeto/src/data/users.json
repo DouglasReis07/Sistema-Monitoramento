@@ -22,5 +22,11 @@
         "email": "gustavo.meira@loovi.com.br",
         "password": "Loovi@1234",
         "name": "Gustavo Meira"
+      },
+      {
+        "id": 6,
+        "email": "glauco.serpa@loovi.com.br",
+        "password": "Loovi@1234",
+        "name": "Glauco Serpa"
       }
   ]
