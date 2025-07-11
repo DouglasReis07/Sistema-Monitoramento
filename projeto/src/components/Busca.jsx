@@ -19,17 +19,15 @@ const BuscaCliente = () => {
   const [mapZoom, setMapZoom] = useState(4);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
 
-  // Carregar dispositivos
-  useEffect(() => {
+   useEffect(() => {
     const fetchDevices = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get('https://03ae-187-32-76-162.ngrok-free.app:5004/api/devices', {
-          headers: { 'x-api-key': '123456789' }
-        });
+        // Nova URL da API
+        const response = await axios.get('https://headdira.github.io/api-rastreamento/devices_data.json');
         
         if (response.data) {
-          // Transformação de dados otimizada
+          // Transformação de dados otimizada para a nova estrutura
           const devicesArray = Object.entries(response.data).flatMap(([email, userData]) => 
             userData.devices?.map(device => ({ ...device, email })) || []
           );
@@ -196,8 +194,8 @@ const BuscaCliente = () => {
                 }}
                 icon={{
                   url: marker.id === (selectedDevice?.device_key || '') 
-                    ? 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
-                    : 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                    ? 'https://maps.gstatic.com/mapfiles/ms2/micons/truck.png'
+                    : 'https://maps.gstatic.com/mapfiles/ms2/micons/truck.png',
                   scaledSize: new window.google.maps.Size(40, 40)
                 }}
               />
