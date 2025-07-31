@@ -61,11 +61,6 @@
 
     O servidor de desenvolvimento será iniciado, e você pode acessar o projeto no navegador no seu endereço.
 
-#  Desenvolvedores:
-
-•  Front-End desenvolvido por Douglas Reis e Gustavo Meira.
-  
-•  Back-End desenvolvido por Gerson Moreira.
 
 # Direitos Autorais:
 
